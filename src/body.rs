@@ -1,10 +1,10 @@
 pub struct Vector2D {
-    x: i32,
-    y: i32,
+    x: f64,
+    y: f64,
 }
 
 impl Vector2D {
-    pub fn new(x: i32, y: i32) -> Self {
+    pub fn new(x: f64, y: f64) -> Self {
         Self { x, y }
     }
 
@@ -32,30 +32,41 @@ impl AddAssign<&Vector2D> for Vector2D {
     }
 }
 use std::ops::Div;
-impl Div<u32> for Vector2D {
+impl Div<f64> for Vector2D {
     type Output = Vector2D;
-    fn div(self, divident: u32) -> Vector2D {
+    fn div(self, divident: f64) -> Vector2D {
         Vector2D {
-            x: self.x / divident as i32,
-            y: self.y / divident as i32,
+            x: self.x / divident as f64,
+            y: self.y / divident as f64,
+        }
+    }
+}
+
+use std::ops::Mul;
+impl Mul<f64> for &Vector2D {
+    type Output = Vector2D;
+    fn mul(self, scaler: f64) -> Vector2D {
+        Vector2D {
+            x: self.x * scaler as f64,
+            y: self.y * scaler as f64,
         }
     }
 }
 
 pub struct Body {
-    mass: u32,
+    mass: f64,
     position: Vector2D,
     velocity: Vector2D,
     acceleration: Vector2D,
 }
 
 impl Body {
-    pub fn new(mass: u32, position: Vector2D) -> Self {
+    pub fn new(mass: f64, position: Vector2D) -> Self {
         Self {
             mass,
             position,
-            velocity: Vector2D::new(0, 0),
-            acceleration: Vector2D::new(0, 0),
+            velocity: Vector2D::new(0.0, 0.0),
+            acceleration: Vector2D::new(0.0, 0.0),
         }
     }
 
@@ -69,7 +80,13 @@ impl Body {
         self.acceleration.print();
     }
 
-    pub fn applyForce(&mut self, force: Vector2D) {
+    pub fn apply_force(&mut self, force: Vector2D) {
         self.acceleration += &(force / self.mass);
+    }
+
+    pub fn update(&mut self, deltaTime: f64) {
+        self.velocity += &(&self.acceleration * deltaTime);
+        self.acceleration = Vector2D::new(0.0, 0.0);
+        self.position += &(&self.velocity * deltaTime);
     }
 }
