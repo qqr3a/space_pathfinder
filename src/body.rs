@@ -115,7 +115,8 @@ impl Body {
 
         let displacement = &body2.position - &self.position;
         let r_squared = &displacement * &displacement;
-        let scaler = g * self.mass * body2.mass / r_squared.powf(1.5);
+        let r = r_squared.sqrt();
+        let scaler = g * self.mass * body2.mass / (r_squared * r); // instead of r_squared^ (3/2), r * r_squared is the same
         self.apply_force(&displacement * scaler);
         body2.apply_force(&displacement * -scaler);
     }
