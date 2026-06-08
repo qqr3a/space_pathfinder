@@ -17,11 +17,15 @@ fn main() {
     let mut accumulator = Duration::ZERO;
     let mut previousFrameTime = Instant::now();
 
+    let mut timeSinceLastLog = Duration::ZERO;
+    let logInterval = Duration::from_secs(1);
+
     loop {
         let now = Instant::now();
         let frameTime = now - previousFrameTime;
         previousFrameTime = now;
         accumulator += frameTime;
+        timeSinceLastLog += frameTime;
 
         while accumulator >= TICK_DURATION {
             for i in 0..entities.len() {
@@ -35,13 +39,19 @@ fn main() {
             }
 
             for body in &mut entities {
-                body.print();
                 body.update(TICK_STEP);
             }
 
             accumulator -= TICK_DURATION;
         }
 
+        if timeSinceLastLog >= logInterval {
+            timeSinceLastLog -= logInterval;
+            println!("---");
+            for body in &mut entities {
+                body.print();
+            }
+        }
         // render frame would go here
         //
     }
