@@ -111,12 +111,12 @@ impl Body {
     }
 
     pub fn apply_gravitational_forces(&mut self, body2: &mut Body) {
-        let g = 1.0;
+        let G:f64 = 6.6743015*(10.0 as f64).powf(-11.0);
 
         let displacement = &body2.position - &self.position;
         let r_squared = &displacement * &displacement;
         let r = r_squared.sqrt();
-        let scaler = g * self.mass * body2.mass / (r_squared * r); // instead of r_squared^ (3/2), r * r_squared is the same
+        let scaler = G * self.mass * body2.mass / (r_squared * r); // instead of r_squared^ (3/2), r * r_squared is the same
         self.apply_force(&displacement * scaler);
         body2.apply_force(&displacement * -scaler);
     }

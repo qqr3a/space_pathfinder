@@ -4,11 +4,11 @@ use body::Body;
 use body::Vector2D;
 
 fn main() {
-    let mut earth = Body::new("earth", 2.0, Vector2D::new(5.0, 3.0));
-    let mut moon = Body::new("moon", 1.0, Vector2D::new(3.0, 2.0));
+    let mut earth = Body::new("earth", 5.972*(10.0 as f64).powf(24 as f64), Vector2D::new(0.0, 0.0));
+    let mut moon = Body::new("moon", 7.348*(10.0 as f64).powf(22 as f64), Vector2D::new(385000000.0, 0.0));
     let mut entities = [earth, moon];
 
-    for _n in 1..=2 {
+    for _n in 1..=1000 {
         for i in 0..entities.len() {
             for j in (i + 1)..entities.len() {
                 let (left, right) = entities.split_at_mut(j);
