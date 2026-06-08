@@ -27,32 +27,32 @@ impl Body {
         self.position.print();
         print!("Velocity: ");
         self.velocity.print();
-        let acceleration = &self.force / self.mass;
+        let acceleration = self.force / self.mass;
         print!("Acceleration: ");
         acceleration.print();
     }
 
     pub fn update(&mut self, deltaTime: f64) {
-        let acceleration = &self.force / self.mass;
+        let acceleration = self.force / self.mass;
         self.force = Vector2D::new(0.0, 0.0);
-        self.velocity += &(&acceleration * deltaTime);
+        self.velocity += acceleration * deltaTime;
 
-        self.position += &(&self.velocity * deltaTime);
+        self.position += self.velocity * deltaTime;
     }
 
-    fn apply_force(&mut self, force: &Vector2D) {
-        self.force += &force;
+    fn apply_force(&mut self, force: Vector2D) {
+        self.force += force;
     }
 
     pub fn update_gravitational_forces(&mut self, body2: &mut Body) {
-        let displacement = &body2.position - &self.position;
-        let r_squared = &displacement * &displacement;
+        let displacement = body2.position - self.position;
+        let r_squared = displacement * displacement;
         let r = r_squared.sqrt();
         let scaler = G * self.mass * body2.mass / (r_squared * r); // instead of r_squared^ (3/2), r * r_squared is the same
 
-        let force = &displacement * scaler;
+        let force = displacement * scaler;
 
-        self.apply_force(&force);
-        body2.apply_force(&-&force);
+        self.apply_force(force);
+        body2.apply_force(-force);
     }
 }
