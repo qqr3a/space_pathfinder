@@ -4,8 +4,8 @@ use body::Body;
 use body::Vector2D;
 
 fn main() {
-    let mut earth = Body::new("earth", 5.972*(10.0 as f64).powf(24 as f64), Vector2D::new(0.0, 0.0));
-    let mut moon = Body::new("moon", 7.348*(10.0 as f64).powf(22 as f64), Vector2D::new(385000000.0, 0.0));
+    let mut earth = Body::new("earth", 5.972 * (10.0 as f64).powf(24 as f64), 0.0);
+    let mut moon = Body::new("moon", 7.348 * (10.0 as f64).powf(22 as f64), 385000000.0);
     let mut entities = [earth, moon];
 
     for _n in 1..=1000 {

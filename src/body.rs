@@ -81,11 +81,11 @@ pub struct Body {
 }
 
 impl Body {
-    pub fn new(name: impl Into<String>, mass: f64, position: Vector2D) -> Self {
+    pub fn new(name: impl Into<String>, mass: f64, x_position: f64) -> Self {
         Self {
             name: name.into(),
             mass,
-            position,
+            position: Vector2D::new(x_position, 0.0),
             velocity: Vector2D::new(0.0, 0.0),
             acceleration: Vector2D::new(0.0, 0.0),
             G: 6.6743015 * (10.0 as f64).powf(-11.0),
