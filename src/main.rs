@@ -1,14 +1,13 @@
-mod body;
-
-use body::Body;
-use body::Vector2D;
+#![allow(non_snake_case)]
+mod physics;
+use physics::body::Body;
 
 fn main() {
-    let mut earth = Body::new("earth", 5.972 * (10.0 as f64).powf(24 as f64), 0.0);
-    let mut moon = Body::new("moon", 7.348 * (10.0 as f64).powf(22 as f64), 385000000.0);
+    let earth = Body::new("earth", 5.972 * (10.0 as f64).powf(24 as f64), 0.0);
+    let moon = Body::new("moon", 7.348 * (10.0 as f64).powf(22 as f64), 385000000.0);
     let mut entities = [earth, moon];
 
-    for _n in 1..=1000 {
+    for _n in 1..=3 {
         for i in 0..entities.len() {
             for j in (i + 1)..entities.len() {
                 let (left, right) = entities.split_at_mut(j);
