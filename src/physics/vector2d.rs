@@ -32,7 +32,7 @@ impl AddAssign<&Vector2D> for Vector2D {
     }
 }
 use std::ops::Div;
-impl Div<f64> for Vector2D {
+impl Div<f64> for &Vector2D {
     type Output = Vector2D;
     fn div(self, divident: f64) -> Vector2D {
         Vector2D {
@@ -68,5 +68,13 @@ impl Mul<&Vector2D> for &Vector2D {
     type Output = f64;
     fn mul(self, other: &Vector2D) -> f64 {
         self.x * other.x + self.y * other.y
+    }
+}
+
+use std::ops::Neg;
+impl Neg for &Vector2D {
+    type Output = Vector2D;
+    fn neg(self) -> Vector2D {
+        Vector2D::new(-self.x, -self.y)
     }
 }
