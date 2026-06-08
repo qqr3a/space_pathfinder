@@ -77,6 +77,7 @@ pub struct Body {
     position: Vector2D,
     velocity: Vector2D,
     acceleration: Vector2D,
+    G: f64,
 }
 
 impl Body {
@@ -87,6 +88,7 @@ impl Body {
             position,
             velocity: Vector2D::new(0.0, 0.0),
             acceleration: Vector2D::new(0.0, 0.0),
+            G: 6.6743015 * (10.0 as f64).powf(-11.0),
         }
     }
 
@@ -111,12 +113,10 @@ impl Body {
     }
 
     pub fn apply_gravitational_forces(&mut self, body2: &mut Body) {
-        let G:f64 = 6.6743015*(10.0 as f64).powf(-11.0);
-
         let displacement = &body2.position - &self.position;
         let r_squared = &displacement * &displacement;
         let r = r_squared.sqrt();
-        let scaler = G * self.mass * body2.mass / (r_squared * r); // instead of r_squared^ (3/2), r * r_squared is the same
+        let scaler = self.G * self.mass * body2.mass / (r_squared * r); // instead of r_squared^ (3/2), r * r_squared is the same
         self.apply_force(&displacement * scaler);
         body2.apply_force(&displacement * -scaler);
     }
