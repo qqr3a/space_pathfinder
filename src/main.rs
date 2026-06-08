@@ -30,7 +30,7 @@ fn main() {
                     let body1 = &mut left[i];
                     let body2 = &mut right[0];
 
-                    body1.apply_gravitational_forces(body2);
+                    body1.update_gravitational_forces(body2);
                 }
             }
 
