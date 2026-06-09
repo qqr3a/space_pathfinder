@@ -12,6 +12,10 @@ impl Vector2D {
     pub fn print(self) {
         println!("({}, {})", self.x, self.y)
     }
+    pub fn reset(mut self) {
+        self.x = 0.0;
+        self.y = 0.0;
+    }
 }
 
 use std::ops::Add;

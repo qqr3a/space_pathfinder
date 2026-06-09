@@ -34,7 +34,7 @@ impl Body {
 
     pub fn update(&mut self, deltaTime: f64) {
         let acceleration = self.force / self.mass;
-        self.force = Vector2D::new(0.0, 0.0);
+        self.force.reset();
         self.velocity += acceleration * deltaTime;
 
         self.position += self.velocity * deltaTime;
