@@ -2,9 +2,9 @@ use super::vector2d::Vector2D;
 
 const G: f64 = 6.6743015e-11;
 
-#[derive(Clone, Copy)]
-pub struct Body<'a> {
-    name: &'a str,
+#[derive(Clone)]
+pub struct Body {
+    name: String,
     mass: f64,
     radius: f64,
     position: Vector2D,
@@ -12,8 +12,8 @@ pub struct Body<'a> {
     force: Vector2D,
 }
 
-impl<'a> Body<'a> {
-    pub fn new(name: &'a str, mass: f64, radius: f64, x_position: f64) -> Self {
+impl Body {
+    pub fn new(name: impl Into<String>, mass: f64, radius: f64, x_position: f64) -> Self {
         Self {
             name: name.into(),
             mass,
@@ -59,21 +59,21 @@ impl<'a> Body<'a> {
         self.apply_force(force);
         body2.apply_force(-force);
     }
-    pub fn getPositionX(self) -> f64 {
-        self.position.x
-    }
-    pub fn getPositionY(self) -> f64 {
-        self.position.y
-    }
-    pub fn getRadius(self) -> f64 {
-        self.radius
-    }
 
-    pub fn setOrbitVelocity(&mut self, body2: &Body){
+    pub fn setOrbitVelocity(&mut self, body2: &Body) {
         let displacement = body2.position - self.position;
         let r_squared = displacement * displacement;
         let r = r_squared.sqrt();
-        self.velocity.y = (G * body2.mass / r).sqrt(); 
+        self.velocity.y = (G * body2.mass / r).sqrt();
     }
 
+    pub fn getPositionX(&self) -> f64 {
+        self.position.x
+    }
+    pub fn getPositionY(&self) -> f64 {
+        self.position.y
+    }
+    pub fn getRadius(&self) -> f64 {
+        self.radius
+    }
 }
