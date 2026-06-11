@@ -2,16 +2,17 @@ use super::vector2d::Vector2D;
 
 const G: f64 = 6.6743015e-11;
 
-pub struct Body {
-    name: String,
+#[derive(Clone, Copy)]
+pub struct Body<'a> {
+    name: &'a str,
     mass: f64,
     position: Vector2D,
     velocity: Vector2D,
     force: Vector2D,
 }
 
-impl Body {
-    pub fn new(name: impl Into<String>, mass: f64, x_position: f64) -> Self {
+impl<'a> Body<'a> {
+    pub fn new(name: &'a str, mass: f64, x_position: f64) -> Self {
         Self {
             name: name.into(),
             mass,
@@ -54,5 +55,11 @@ impl Body {
 
         self.apply_force(force);
         body2.apply_force(-force);
+    }
+    pub fn getPositionX(self) -> f64 {
+        self.position.x
+    }
+    pub fn getPositionY(self) -> f64 {
+        self.position.y
     }
 }
