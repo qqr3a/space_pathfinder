@@ -6,16 +6,18 @@ const G: f64 = 6.6743015e-11;
 pub struct Body<'a> {
     name: &'a str,
     mass: f64,
+    radius: f64,
     position: Vector2D,
     velocity: Vector2D,
     force: Vector2D,
 }
 
 impl<'a> Body<'a> {
-    pub fn new(name: &'a str, mass: f64, x_position: f64) -> Self {
+    pub fn new(name: &'a str, mass: f64, radius: f64, x_position: f64) -> Self {
         Self {
             name: name.into(),
             mass,
+            radius,
             position: Vector2D::new(x_position, 0.0),
             velocity: Vector2D::new(0.0, 0.0),
             force: Vector2D::new(0.0, 0.0),
@@ -23,6 +25,7 @@ impl<'a> Body<'a> {
     }
 
     pub fn print(&self) {
+        println!("Name: {}", self.name);
         println!("Mass: {}", self.mass);
         print!("Position: ");
         self.position.print();
@@ -62,4 +65,15 @@ impl<'a> Body<'a> {
     pub fn getPositionY(self) -> f64 {
         self.position.y
     }
+    pub fn getRadius(self) -> f64 {
+        self.radius
+    }
+
+    pub fn setOrbitVelocity(&mut self, body2: &Body){
+        let displacement = body2.position - self.position;
+        let r_squared = displacement * displacement;
+        let r = r_squared.sqrt();
+        self.velocity.y = (G * body2.mass / r).sqrt(); 
+    }
+
 }
