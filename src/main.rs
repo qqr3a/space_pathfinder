@@ -1,4 +1,6 @@
 #![allow(non_snake_case)]
+use macroquad::prelude::*;
+
 mod physics;
 use std::time::{Duration, Instant};
 
@@ -6,8 +8,11 @@ use physics::body::Body;
 
 const TICK_RATE: f64 = 60.0;
 const TICK_STEP: f64 = 1.0 / TICK_RATE;
+use macroquad::prelude::*;
 
-fn main() {
+#[macroquad::main("MyGame")]
+
+async fn main() {
     let earth = Body::new("earth", 5.972e24, 0.0);
     let moon = Body::new("moon", 7.348e22, 385000000.0);
     let mut entities = [earth, moon];
@@ -39,7 +44,7 @@ fn main() {
             }
 
             for body in &mut entities {
-                body.update(TICK_STEP);
+                body.update(TICK_STEP * 3600.0);
             }
 
             accumulator -= TICK_DURATION;
@@ -54,5 +59,24 @@ fn main() {
         }
         // render frame would go here
         //
+
+        clear_background(BLACK);
+
+        let scale = 1e6;
+
+        draw_circle(
+            screen_width() / 2.0 - (entities[0].getPositionX() / scale) as f32,
+            screen_height() / 2.0 - (entities[0].getPositionY() / scale) as f32,
+            15.0,
+            BLUE,
+        );
+        draw_circle(
+            screen_width() / 2.0 - (entities[1].getPositionX() / scale) as f32,
+            screen_height() / 2.0 - (entities[1].getPositionY() / scale) as f32,
+            5.0,
+            GRAY,
+        );
+
+        next_frame().await
     }
 }
