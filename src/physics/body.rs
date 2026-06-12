@@ -64,7 +64,8 @@ impl Body {
         let displacement = body2.position - self.position;
         let r_squared = displacement * displacement;
         let r = r_squared.sqrt();
-        self.velocity.y = (G * body2.mass / r).sqrt();
+        let r_unit = displacement/ r;
+        self.velocity = Vector2D::new(r_unit.y,-r_unit.x)*(G * body2.mass / r).sqrt();
     }
 
     pub fn getPositionX(&self) -> f64 {
